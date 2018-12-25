@@ -1,21 +1,8 @@
 <template>
   <div class="fillcontain">
-    <!-- <div>
-      <el-form :inline="true" ref="search_data" :model='search_data'>
-        <el-form-item label="投标时间筛选:">
-          <el-date-picker v-model="search_data.startTime" type="datetime" placeholder="选择开始时间">
-          </el-date-picker> --
-          <el-date-picker v-model="search_data.endTime" type="datetime" placeholder="选择结束时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" size="small" icon="search" @click='onScreeoutMoney()'>筛选</el-button>
-        </el-form-item>
-        <el-form-item class="btnRight">
-          <el-button type="primary" size="small" icon="view" @click='onAddMoney()'>添加</el-button>
-        </el-form-item>
-      </el-form>
-    </div> -->
+    <div>
+      <el-button type="primary" icon='delete' size="small" @click='addArticle'>添加文章</el-button>
+    </div>
     <div class="table_container">
       <el-table :data='list' border :default-sort="{prop: 'date', order: 'descending'}" style="width: 100%">
         <el-table-column type="index" label="序号" align='center' width="50">
@@ -55,11 +42,18 @@
         </el-col>
       </el-row>
     </div>
+    <el-dialog title="添加文章" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { dateFormatAllTime } from '../utils/tools'
+import { dateFormatAllTime } from "../utils/tools";
 export default {
   name: "usersList",
   data() {
@@ -71,7 +65,8 @@ export default {
         name: "",
         current_page: 1, // 当前位于哪页
         page_size: 5 // 1页显示多少条
-      }
+      },
+      dialogVisible: false,
     };
   },
   created() {
@@ -81,17 +76,16 @@ export default {
     dateFormatAllTime,
     getUsersList() {
       // 获取表格数据
-      this.$axios("/api/date/getUsersList", {
+      this.$axios("/api/getUsersList", {
         params: {
           name: this.query.name,
           current_page: this.query.current_page,
-          page_size: this.query.page_size,
+          page_size: this.query.page_size
         }
       }).then(res => {
         const resData = res.data;
-        if(res.errcode){
-
-          return
+        if (res.errcode) {
+          return;
         }
         this.list = resData.list;
         this.total = resData.total;
@@ -99,32 +93,16 @@ export default {
     },
     handleCurrentChange(current_page) {
       // 当前页
-      this.query.current_page = current_page
+      this.query.current_page = current_page;
       this.getUsersList();
     },
     handleSizeChange(page_size) {
       // 切换size
-      this.query.page_size = page_size
+      this.query.page_size = page_size;
       this.getUsersList();
     },
-    onScreeoutMoney() {
-      // 筛选
-      if (!this.search_data.startTime || !this.search_data.endTime) {
-        this.$message({
-          type: "warning",
-          message: "请选择时间区间"
-        });
-        this.getUsersList();
-        return;
-      }
-      const stime = this.search_data.startTime.getTime();
-      const etime = this.search_data.endTime.getTime();
-      this.allTableData = this.filterTableData.filter(item => {
-        let date = new Date(item.date);
-        let time = date.getTime();
-        return time >= stime && time <= etime;
-      });
-      // 分页数据
+    addArticle() {
+      this.dialogVisible = true
     }
   }
 };

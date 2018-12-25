@@ -1,36 +1,33 @@
 <template>
-    <header class="head-nav">
-        <el-row>
-            <el-col :span="6" class='logo-container'>
-                <img src="../assets/logo.png" class='logo' alt="">
-                <span class='title'>后台管理系统</span>
-            </el-col>
-            <el-col :span='6' class="user">
-                <div class="userinfo">
-                    <img :src="user.avatar" class='avatar' alt="">
-                     <div class='welcome'>
-                        <p class='name comename'>欢迎</p>
-                        <p class='name avatarname'>{{user.name}}</p>
-                    </div>
-                    <span class='username'>
-                        <el-dropdown
-                                trigger="click"
-                                @command='setDialogInfo'>
-                            <span class="el-dropdown-link">
-                                <i class="el-icon-caret-bottom el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command='info'>个人信息</el-dropdown-item>
-                                <el-dropdown-item  command='logout'>退出</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
-                     </span>
-                </div>
-            </el-col>
+  <header class="head-nav">
+    <el-row>
+      <el-col :span="6" class='logo-container'>
+        <img src="../assets/home.png" class='logo' alt="">
+        <span class='title'>ISAAC-后台</span>
+      </el-col>
+      <el-col :span='6' class="user">
+        <div class="userinfo">
+          <span class='username'>
+            <el-dropdown trigger="click" @command='setDialogInfo'>
+              <img src="../assets/banana.png" class='avatar' alt="">
+              <div class='welcome'>
+                <p class='name comename'>欢迎</p>
+              </div>
+              <span class="el-dropdown-link">
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command='info'>个人信息</el-dropdown-item>
+                <el-dropdown-item command='logout'>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </span>
+        </div>
+      </el-col>
 
-        </el-row>
+    </el-row>
 
-    </header>
+  </header>
 </template>
 <script>
 export default {

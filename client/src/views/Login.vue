@@ -47,8 +47,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$axios.post("/api/login", this.loginUser).then(res => {
-            console.log("res===>", res);
+          this.$axios.post("/api/date/login", this.loginUser).then(res => {
             if (res.data.errcode) {
               this.loading = false;
               this.$message.error(res.data.errmsg);
